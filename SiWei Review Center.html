@@ -7,10 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--blue:#5B8DE3;--deep:#2F5BB0;--ink:#16284D;--sky:#EAF1FD;--bg:#fff;--card:#fff;--line:#D2E0F7;--muted:#4C5C85;--gold:#FFC83D;
+:root{--blue:#5B8DE3;--deep:#8DB3F5;--ink:#EAF1FF;--sky:#13213F;--bg:#0F1A33;--card:#16264A;--line:#27407A;--muted:#A9B9DB;--gold:#FFC83D;color-scheme:dark;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1A33;--card:#16264A;--ink:#EAF1FF;--sky:#13213F;--line:#27407A;--muted:#A9B9DB;--deep:#8DB3F5}}
-:root[data-theme="dark"]{--bg:#0F1A33;--card:#16264A;--ink:#EAF1FF;--sky:#13213F;--line:#27407A;--muted:#A9B9DB;--deep:#8DB3F5}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth;scroll-padding-top:calc(76px + env(safe-area-inset-top,0px))}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Nunito Sans",system-ui,sans-serif}
@@ -96,7 +94,31 @@ footer{padding:26px 0;text-align:center;color:var(--muted);font-size:.9rem}
 section{padding:56px 0}
 }
 @media (max-width:540px){.sub,.gal{grid-template-columns:1fr}.brand span{font-size:1.1rem}.btn{padding:12px 20px}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+/* sparkle layer */
+.hero,.contact{position:relative;overflow:hidden}
+.hero .wrap,.contact .wrap{position:relative;z-index:1}
+.hero::before{content:"";position:absolute;width:560px;height:560px;right:-120px;top:-160px;background:radial-gradient(circle,rgba(91,141,227,.45),transparent 65%);animation:glow 6s ease-in-out infinite alternate;pointer-events:none}
+.sp{position:absolute;width:var(--s);height:var(--s);background:#fff;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);opacity:0;animation:tw var(--d) ease-in-out var(--l) infinite;pointer-events:none;filter:drop-shadow(0 0 6px #8DB3F5)}
+@keyframes tw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:.95;transform:scale(1) rotate(45deg)}}
+@keyframes glow{from{opacity:.6;transform:scale(.95)}to{opacity:1;transform:scale(1.08)}}
+@keyframes sh{to{background-position:-200% 0}}
+@keyframes sweep{0%,55%{left:-60%}100%{left:130%}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(91,141,227,.55),0 0 24px rgba(91,141,227,.35)}50%{box-shadow:0 0 0 10px rgba(91,141,227,0),0 0 48px rgba(141,179,245,.6)}}
+.hero h1{color:#fff;background:linear-gradient(90deg,#EAF1FF 0%,#8DB3F5 35%,#fff 50%,#8DB3F5 65%,#EAF1FF 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:sh 7s linear infinite}
+.brand img{filter:drop-shadow(0 0 8px rgba(91,141,227,.75))}
+.btn{position:relative;overflow:hidden;box-shadow:inset 0 0 0 3px rgba(255,255,255,.55),0 5px 0 #3C68BA,0 0 22px rgba(91,141,227,.55)}
+.btn:hover{box-shadow:inset 0 0 0 3px rgba(255,255,255,.55),0 3px 0 #3C68BA,0 0 32px rgba(141,179,245,.85)}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);animation:sweep 3.5s ease-in-out infinite;pointer-events:none}
+.btn.ghost::after{display:none}
+.btn.ghost,.btn.ghost:hover{box-shadow:inset 0 0 0 2px var(--blue),0 0 18px rgba(91,141,227,.35)}
+.card,.tier,.feat div:not(.gift){transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover,.tier:hover,.feat div:not(.gift):hover{transform:translateY(-6px);border-color:var(--blue);box-shadow:0 14px 34px rgba(91,141,227,.35)}
+.tier.top{animation:pulse 3.2s ease-in-out infinite}
+.tag{box-shadow:0 0 16px rgba(255,200,61,.7)}
+.ph{transition:box-shadow .25s}.ph:hover{box-shadow:0 0 30px rgba(91,141,227,.5)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}.sp,.btn::after,.tier.top,.hero::before,.hero h1{animation:none}.rv{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
@@ -173,6 +195,8 @@ section{padding:56px 0}
 <footer>&copy; SiWei Review Center. Sample design for client review.</footer>
 <script>
 document.querySelectorAll('.ph[data-file]').forEach(function(el){var i=new Image();i.onload=function(){i.alt=el.dataset.alt||'';el.replaceChildren(i);el.classList.add('has')};i.src='images/'+el.dataset.file});
+document.querySelectorAll('.hero,.contact').forEach(function(s){for(var k=0;k<18;k++){var e=document.createElement('i');e.className='sp';e.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;--s:'+(8+Math.random()*16)+'px;--d:'+(2.5+Math.random()*3)+'s;--l:'+(Math.random()*4)+'s';s.insertBefore(e,s.firstChild)}});
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});document.querySelectorAll('h2,.sub,.tiers,.feat,.gal').forEach(function(e){e.classList.add('rv');io.observe(e)})}
 </script>
 </body>
 </html>
